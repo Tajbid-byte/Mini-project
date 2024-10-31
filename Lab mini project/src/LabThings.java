@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-// Garment Class
 class Garment {
     private String id;
     private String name;
@@ -13,17 +12,6 @@ class Garment {
     private double price;
     private int stockQuantity;
     private Fabric fabric;
-
-    public Garment(String id, String name, String description, String size, String color, double price, int stockQuantity, Fabric fabric) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.size = size;
-        this.color = color;
-        this.price = price;
-        this.stockQuantity = stockQuantity;
-        this.fabric = fabric;
-    }
 
     public void updateStock(int quantity) {
         this.stockQuantity += quantity;
@@ -70,7 +58,7 @@ class Fabric {
         return pricePerMeter * meters;
     }
 
-    // Getters and Setters omitted for brevity
+    
 }
 
 // Supplier Class
@@ -94,10 +82,9 @@ class Supplier {
         return suppliedFabrics;
     }
 
-    // Getters and Setters omitted for brevity
+
 }
 
-// Order Class
 class Order {
     private String orderId;
     private Date orderDate;
@@ -116,7 +103,7 @@ class Order {
     public double calculateTotalAmount() {
         totalAmount = 0;
         for (Garment garment : garments) {
-            totalAmount += garment.calculateDiscountPrice(0); // Assuming no discount here
+            totalAmount += garment.calculateDiscountPrice(0); 
         }
         return totalAmount;
     }
@@ -131,7 +118,7 @@ class Order {
         }
     }
 
-    // Getters and Setters omitted for brevity
+
 }
 
 // Customer Class
@@ -157,7 +144,7 @@ class Customer {
         return orders;
     }
 
-    // Getters and Setters omitted for brevity
+
 }
 
 // Inventory Class
@@ -181,13 +168,12 @@ class Inventory {
         return null;
     }
 
-    // Getters and Setters omitted for brevity
 }
 
 // Main Class
 public class LabThings {
     public static void main(String[] args) {
-        // Sample data and operations can be added here to test functionality
+        
         Fabric cotton = new Fabric("F001", "Cotton", "White", 10.5);
         Garment shirt = new Garment("G001", "Shirt", "Casual shirt", "M", "Blue", 20.0, 10, cotton);
 
