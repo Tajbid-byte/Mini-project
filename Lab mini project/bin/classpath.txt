@@ -1,0 +1,3 @@
+lib/pdfbox-3.0.3.jar
+lib/fontbox-3.0.3.jar
+lib/pdfbox-app-3.0.3.jar
