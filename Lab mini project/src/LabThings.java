@@ -1,7 +1,9 @@
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Scanner;
 
+// Garment Class
 class Garment {
     private String id;
     private String name;
@@ -12,7 +14,6 @@ class Garment {
     private int stockQuantity;
     private Fabric fabric;
 
-    // Constructor for Garment
     public Garment(String id, String name, String description, String size, String color, double price, int stockQuantity, Fabric fabric) {
         this.id = id;
         this.name = name;
@@ -47,8 +48,6 @@ class Garment {
     public String getColor() {
         return color;
     }
-
-    // Additional getters and setters for other fields can be added if needed.
 }
 
 // Fabric Class
@@ -64,34 +63,9 @@ class Fabric {
         this.color = color;
         this.pricePerMeter = pricePerMeter;
     }
-
-    public double calculateCost(double meters) {
-        return pricePerMeter * meters;
-    }
 }
 
-// Supplier Class
-class Supplier {
-    private String id;
-    private String name;
-    private String contactInfo;
-    private List<Fabric> suppliedFabrics = new ArrayList<>();
-
-    public Supplier(String id, String name, String contactInfo) {
-        this.id = id;
-        this.name = name;
-        this.contactInfo = contactInfo;
-    }
-
-    public void addFabric(Fabric fabric) {
-        suppliedFabrics.add(fabric);
-    }
-
-    public List<Fabric> getSuppliedFabrics() {
-        return suppliedFabrics;
-    }
-}
-
+// Order Class
 class Order {
     private String orderId;
     private Date orderDate;
@@ -110,7 +84,7 @@ class Order {
     public double calculateTotalAmount() {
         totalAmount = 0;
         for (Garment garment : garments) {
-            totalAmount += garment.calculateDiscountPrice(0);
+            totalAmount += garment.calculateDiscountPrice(0); 
         }
         return totalAmount;
     }
@@ -123,30 +97,6 @@ class Order {
         for (Garment garment : garments) {
             System.out.println("- " + garment.getName() + " (" + garment.getSize() + ", " + garment.getColor() + ")");
         }
-    }
-}
-
-// Customer Class
-class Customer {
-    private String customerId;
-    private String name;
-    private String email;
-    private String phone;
-    private List<Order> orders = new ArrayList<>();
-
-    public Customer(String customerId, String name, String email, String phone) {
-        this.customerId = customerId;
-        this.name = name;
-        this.email = email;
-        this.phone = phone;
-    }
-
-    public void placeOrder(Order order) {
-        orders.add(order);
-    }
-
-    public List<Order> viewOrders() {
-        return orders;
     }
 }
 
@@ -170,20 +120,90 @@ class Inventory {
         }
         return null;
     }
+
+    public void listGarments() {
+        for (Garment garment : garments) {
+            System.out.println("ID: " + garment.getId() + ", Name: " + garment.getName() + ", Size: " + garment.getSize() + ", Color: " + garment.getColor());
+        }
+    }
 }
 
 // Main Class
 public class LabThings {
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Inventory inventory = new Inventory();
         
+        // Adding sample data
         Fabric cotton = new Fabric("F001", "Cotton", "White", 10.5);
         Garment shirt = new Garment("G001", "Shirt", "Casual shirt", "M", "Blue", 20.0, 10, cotton);
-
-        Inventory inventory = new Inventory();
         inventory.addGarment(shirt);
 
-        Order order = new Order("O001", new Date());
-        order.addGarment(shirt);
-        order.printOrderDetails();
+        while (true) {
+            System.out.println("\n--- Garment Management System ---");
+            System.out.println("1. Add Garment to Inventory");
+            System.out.println("2. List Garments");
+            System.out.println("3. Place Order");
+            System.out.println("4. Exit");
+            System.out.print("Choose an option: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine();  // Consume newline
+
+            switch (choice) {
+                case 1:
+                    // Add Garment
+                    System.out.print("Enter Garment ID: ");
+                    String id = scanner.nextLine();
+                    System.out.print("Enter Name: ");
+                    String name = scanner.nextLine();
+                    System.out.print("Enter Description: ");
+                    String description = scanner.nextLine();
+                    System.out.print("Enter Size: ");
+                    String size = scanner.nextLine();
+                    System.out.print("Enter Color: ");
+                    String color = scanner.nextLine();
+                    System.out.print("Enter Price: ");
+                    double price = scanner.nextDouble();
+                    System.out.print("Enter Stock Quantity: ");
+                    int stockQuantity = scanner.nextInt();
+                    scanner.nextLine();  // Consume newline
+
+                    Garment newGarment = new Garment(id, name, description, size, color, price, stockQuantity, cotton);
+                    inventory.addGarment(newGarment);
+                    System.out.println("Garment added successfully!");
+                    break;
+
+                case 2:
+                    // List Garments
+                    System.out.println("\n--- Garment Inventory ---");
+                    inventory.listGarments();
+                    break;
+
+                case 3:
+                    // Place Order
+                    System.out.print("Enter Order ID: ");
+                    String orderId = scanner.nextLine();
+                    Order order = new Order(orderId, new Date());
+                    System.out.print("Enter Garment ID to add to order: ");
+                    String garmentId = scanner.nextLine();
+                    Garment garment = inventory.findGarment(garmentId);
+                    
+                    if (garment != null) {
+                        order.addGarment(garment);
+                        order.printOrderDetails();
+                    } else {
+                        System.out.println("Garment not found!");
+                    }
+                    break;
+
+                case 4:
+                    System.out.println("Exiting...");
+                    scanner.close();
+                    System.exit(0);
+
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
     }
 }
