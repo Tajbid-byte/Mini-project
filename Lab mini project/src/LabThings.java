@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,6 +11,18 @@ class Garment {
     private double price;
     private int stockQuantity;
     private Fabric fabric;
+
+    // Constructor for Garment
+    public Garment(String id, String name, String description, String size, String color, double price, int stockQuantity, Fabric fabric) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.size = size;
+        this.color = color;
+        this.price = price;
+        this.stockQuantity = stockQuantity;
+        this.fabric = fabric;
+    }
 
     public void updateStock(int quantity) {
         this.stockQuantity += quantity;
@@ -57,8 +68,6 @@ class Fabric {
     public double calculateCost(double meters) {
         return pricePerMeter * meters;
     }
-
-    
 }
 
 // Supplier Class
@@ -81,8 +90,6 @@ class Supplier {
     public List<Fabric> getSuppliedFabrics() {
         return suppliedFabrics;
     }
-
-
 }
 
 class Order {
@@ -103,7 +110,7 @@ class Order {
     public double calculateTotalAmount() {
         totalAmount = 0;
         for (Garment garment : garments) {
-            totalAmount += garment.calculateDiscountPrice(0); 
+            totalAmount += garment.calculateDiscountPrice(0);
         }
         return totalAmount;
     }
@@ -117,8 +124,6 @@ class Order {
             System.out.println("- " + garment.getName() + " (" + garment.getSize() + ", " + garment.getColor() + ")");
         }
     }
-
-
 }
 
 // Customer Class
@@ -143,8 +148,6 @@ class Customer {
     public List<Order> viewOrders() {
         return orders;
     }
-
-
 }
 
 // Inventory Class
@@ -167,7 +170,6 @@ class Inventory {
         }
         return null;
     }
-
 }
 
 // Main Class
